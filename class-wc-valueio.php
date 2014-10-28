@@ -50,7 +50,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
     } else {
       $this->live_base_url = 'https://api.value.io';
     }
-    $this->live_base_url = 'http://localhost:3000';
+    //$this->live_base_url = 'http://localhost:3000';
     $this->valueio_base_url = $this->live_base_url;
     $this->valueio_api_url = "{$this->valueio_base_url}/v1/";
     $this->valueio_api_auth_headers = array(
