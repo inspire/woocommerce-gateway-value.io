@@ -256,9 +256,9 @@ class WC_ValueIO extends WC_Payment_Gateway {
         window.valueio_last_name = '{$order->billing_last_name}'; 
         window.valueio_vault = '{$vault}'; 
         window.valueio_resource = 'credit_cards';
-        window.valueio_merchant_title_1 = '{$this->title}';
-        window.valueio_merchant_title_2 = '{$this->description}';
-        window.valueio_merchant_form_selector = '#order_review';
+        window.valueio_secure_form_title_1 = '{$this->title}';
+        window.valueio_secure_form_title_2 = '{$this->description}';
+        window.valueio_form_selector = '#order_review';
         window.valueio_skip_iframe = function(){
           use_valueio = $('#payment_method_valueio').prop('checked');
           use_new_payment_info = $('#valueio-use-stored-payment-info-no').prop('checked');
@@ -974,8 +974,8 @@ class WC_ValueIO extends WC_Payment_Gateway {
               window.valueio_last_name = '{$order->billing_last_name}'; 
               window.valueio_vault = '{$vault}'; 
               window.valueio_resource = 'payments';
-              window.valueio_merchant_title_1 = '{$this->title}';
-              window.valueio_merchant_title_2 = '{$this->description}';
+              window.valueio_secure_form_title_1 = '{$this->title}';
+              window.valueio_secure_form_title_2 = '{$this->description}';
               window.valueio_payment_id = '{$payment_id}';
               window.valueio_on_success = function(){
                 if (typeof window.valueio_payment_id !== 'undefined') {
@@ -986,7 +986,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
                   window.location = checkout_url;
                 }
               };
-              window.valueio_on_payment_cancel = function(reason){
+              window.valueio_on_cancel = function(reason){
                 if(reason != undefined){
                   alert(reason + ' You will now be redirected back to the checkout page.');
                 }
