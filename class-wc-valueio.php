@@ -779,7 +779,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
       'payment' => array(),
       'credit_card' => array(),
       'status' => wp_remote_retrieve_response_code($response),
-      'body' => $response['body']
+      'body' => is_wp_error($response) ? $response->get_error_message() : $response['body']
     );
 
     
