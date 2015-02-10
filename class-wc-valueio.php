@@ -994,7 +994,14 @@ class WC_ValueIO extends WC_Payment_Gateway {
                 window.location = checkout_url;
               };
               jQuery(function(){
-                window.valueio_iframe.show_iframe();
+                show_iframe = function(){
+                  if (window.valueio_iframe == undefined){
+                    setTimeout(show_iframe, 200);
+                  } else {
+                    window.valueio_iframe.show_iframe();
+                  }
+                };
+                show_iframe();
               });
             </script>
           ";
