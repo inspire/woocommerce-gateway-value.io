@@ -107,7 +107,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
         } elseif ($_REQUEST['payment_method'] == 'valueio') {
           $use_stored = $_REQUEST['valueio-use-stored-payment-info'];
           if ($use_stored == null || $use_stored == 'no') {
-            $single_use_credit_card_token = $_REQUEST['valueio_id'];
+            $single_use_credit_card_token = $_REQUEST['valueio_token'];
             $admin_token = $this->valueio_admin_token;
             $_REQUEST['change_payment_method'] = null;
             $wc_valueio = new WC_ValueIO;
@@ -119,7 +119,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
             update_post_meta(
               $order->id,
               'valueio_vault_id',
-              $credit_card_id['credit_card']['id']
+              $card_response_data['credit_card']['id']
             );
           } else {
             $customer_vault_ids = WC_ValueIO::get_user_vault_ids($order->user_id);
@@ -260,8 +260,8 @@ class WC_ValueIO extends WC_Payment_Gateway {
         window.valueio_secure_form_title_2 = '{$this->description}';
         window.valueio_form_selector = '#order_review';
         window.valueio_skip_iframe = function(){
-          use_valueio = $('#payment_method_valueio').prop('checked');
-          use_new_payment_info = $('#valueio-use-stored-payment-info-no').prop('checked');
+          use_valueio = jQueryValueJS('#payment_method_valueio').prop('checked');
+          use_new_payment_info = jQueryValueJS('#valueio-use-stored-payment-info-no').prop('checked');
 
           if (use_valueio) {
             if (use_new_payment_info == undefined || use_new_payment_info == true) {
