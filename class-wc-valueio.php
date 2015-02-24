@@ -148,7 +148,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
 
     $sanitized_message = explode('{', $message);
     $sanitized_message = $sanitized_message[0];
-    $woocommerce->add_error($sanitized_message.'.  Please contact the store administrator');
+    wc_add_notice( $sanitized_message.'.  Please contact the store administrator', $notice_type = 'error' );
     trigger_error($sanitized_message);
   }
 
@@ -536,8 +536,7 @@ class WC_ValueIO extends WC_Payment_Gateway {
       array_values($customer_vault_ids)
     );
 
-    $woocommerce->add_message(__('Successfully deleted your information!', 'woocommerce'));
-    $woocommerce->show_messages();
+    wc_add_notice( __('Successfully deleted your information!', 'woocommerce'), $notice_type = 'success' );
   }
 
   /**
