@@ -41,7 +41,6 @@ class WC_ValueIO extends WC_Payment_Gateway {
     $this->valueio_write_only_token = $this->settings['valueio_write_only_token'];
     $this->valueio_admin_token      = $this->settings['valueio_admin_token'];
     $this->vault_enabled            = $this->settings['vault_enabled'];
-    $this->log_errors               = $this->settings['log_errors'];
     $this->test_mode                = $this->settings['test_mode'];
     $this->payment_destination      = $this->settings['payment_destination'];
 
@@ -57,10 +56,6 @@ class WC_ValueIO extends WC_Payment_Gateway {
       'Authorization' =>
         'Basic '.base64_encode($this->valueio_account.':'.$this->valueio_admin_token)
    );
-
-    // Enable Logs
-    if ($this->log_errors == 'yes')
-      $this->log = $woocommerce->logger();
 
     // Hooks
 
@@ -140,10 +135,6 @@ class WC_ValueIO extends WC_Payment_Gateway {
   function handle_error($message, $options = array()) {
     global $woocommerce;
 
-    $log = $options['log'];
-    if ($log == null)
-      $log = $this->log_errors == 'yes';
-
     $throw = $options['throw'];
     if ($throw == null)
       $throw = false;
@@ -152,15 +143,13 @@ class WC_ValueIO extends WC_Payment_Gateway {
 
     $message = __($message, 'woocommerce');
 
-    if ($log)
-      $this->log->add('valueio', $message);
-
     if ($order != null)
       $order->add_order_note($message);
 
     $sanitized_message = explode('{', $message);
     $sanitized_message = $sanitized_message[0];
     $woocommerce->add_error($sanitized_message.'.  Please contact the store administrator');
+    trigger_error($sanitized_message);
   }
 
  /**
@@ -413,13 +402,6 @@ class WC_ValueIO extends WC_Payment_Gateway {
         'label' => __('Enable ValueIO Test Mode', 'wc_valueio'),
         'description' => __('Enabling this will direct traffic to the staging valueio api instead of the default production valueio api', 'wc_valueio'),
         'default' => 'yes'
-     ),
-      'log_errors' => array(
-        'title' => __('Log Errors', 'wc_valueio'),
-        'type' => 'checkbox',
-        'label' => __('Enable error logging', 'wc_valueio'),
-        'default' => 'yes',
-        'description' => __('Log errors to <code>woocommerce/logs/valueio.txt</code>', 'wc_valueio'),
      ),
       'payment_destination' => array(
         'title' => __('Payment Destination (Optional)', 'wc_valueio'),
